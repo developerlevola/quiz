@@ -1,129 +1,155 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Homenagem — Quiz Interativo</title>
-  <style>
-    :root{
-      --bg:#0b0710;
-      --glow:#7352df;
-      --muted:#bdb8d9;
-      --dot-size:14px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:radial-gradient(1200px 600px at 10% 10%, rgba(115,82,223,0.12), transparent), radial-gradient(1000px 500px at 90% 90%, rgba(115,82,223,0.06), transparent), var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px}
-    .container{width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(115,82,223,0.12);padding:28px;border-radius:18px;box-shadow:0 8px 30px rgba(115,82,223,0.08);position:relative;overflow:hidden}
-    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-    .logo{width:64px;height:64px;background:linear-gradient(135deg, rgba(115,82,223,0.18), rgba(115,82,223,0.06));border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(115,82,223,0.15);}
-    .logo h1{margin:0;font-size:24px;color:var(--glow);text-shadow:0 0 14px rgba(115,82,223,0.6)}
-    .head-text{flex:1}
-    h2{margin:0 0 6px 0;font-size:20px}
-    p.lead{margin:0;color:var(--muted);font-size:14px}
-    .controls{display:flex;gap:12px;align-items:center;margin-bottom:18px}
-    select,input[type=number]{background:transparent;border:1px dashed rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:#fff;min-width:140px}
-    button.primary{background:linear-gradient(90deg,var(--glow), #a47df2);border:none;padding:10px 16px;border-radius:10px;cursor:pointer;color:#0b0710;font-weight:700;box-shadow:0 8px 30px rgba(115,82,223,0.16)}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .question{font-size:18px;margin-bottom:12px;position:relative}
-    .options{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
-    .opt{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;position:relative}
-    .opt:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(115,82,223,0.08)}
-    .opt.correct{box-shadow:0 0 18px rgba(46, 255, 150,0.12);border-color:rgba(46,255,150,0.12)}
-    .opt.wrong{box-shadow:0 0 18px rgba(255,80,80,0.12);border-color:rgba(255,80,80,0.12)}
-    .progress{display:flex;gap:8px;justify-content:center;margin:14px 0}
-    .dot{width:var(--dot-size);height:var(--dot-size);border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.02);box-shadow:0 2px 8px rgba(0,0,0,0.4)}
-    .dot.done.correct{background:linear-gradient(90deg,#63f0a1,rgba(46,255,150,0.18));box-shadow:0 6px 18px rgba(99,240,161,0.06);border-color:rgba(46,255,150,0.18)}
-    .dot.done.wrong{background:linear-gradient(90deg,rgba(255,80,80,0.18),#ff6b6b);box-shadow:0 6px 18px rgba(255,80,80,0.06);border-color:rgba(255,80,80,0.18)}
-    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:14px}
-    .final{display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:28px}
-    .final.show{display:flex}
-    .final h3{font-size:22px;margin:6px 0}
-    .prize{margin-top:8px;padding:12px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(115,82,223,0.12), rgba(115,82,223,0.04));border:1px solid rgba(115,82,223,0.12)}
-    .prize img{width:120px; height:120px; object-fit:cover; border-radius:12px; margin-top:8px;}
-    .flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s ease;background:var(--glow);mix-blend-mode:screen}
-    .flash.green{background:linear-gradient(90deg, rgba(31,255,142,0.22), rgba(31,255,142,0.06));}
-    .flash.red{background:linear-gradient(90deg, rgba(255,60,80,0.22), rgba(255,60,80,0.06));}
-    .small{font-size:13px;color:var(--muted)}
-    .power{
-      background:linear-gradient(90deg,var(--glow), #a47df2);
-      border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-size:14px;
-      color:#fff; font-weight:700; box-shadow:0 4px 20px rgba(115,82,223,0.2); transition:.2s;
-    }
-    .power:disabled{
-      background:#555; color:#999; cursor:not-allowed; box-shadow:none;
-    }
-    @media(max-width:640px){.options{grid-template-columns:1fr}.head-text h2{font-size:18px}.logo{width:54px;height:54px}.container{padding:18px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Homenagem — Quiz Interativo</title>
+<style>
+:root{
+  --bg:#0b0710;
+  --glow:#7352df;
+  --muted:#bdb8d9;
+  --dot-size:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(1200px 600px at 10% 10%, rgba(115,82,223,0.12), transparent), radial-gradient(1000px 500px at 90% 90%, rgba(115,82,223,0.06), transparent), var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px}
+.container{width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(115,82,223,0.12);padding:28px;border-radius:18px;box-shadow:0 8px 30px rgba(115,82,223,0.08);position:relative;overflow:hidden}
+header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.logo{width:64px;height:64px;background:linear-gradient(135deg, rgba(115,82,223,0.18), rgba(115,82,223,0.06));border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(115,82,223,0.15);}
+.logo h1{margin:0;font-size:24px;color:var(--glow);text-shadow:0 0 14px rgba(115,82,223,0.6)}
+.head-text{flex:1}
+h2{margin:0 0 6px 0;font-size:20px}
+p.lead{margin:0;color:var(--muted);font-size:14px}
+.controls{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+select,input[type=number]{background:transparent;border:1px dashed rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:#fff;min-width:140px}
+button.primary{background:linear-gradient(90deg,var(--glow), #a47df2);border:none;padding:10px 16px;border-radius:10px;cursor:pointer;color:#0b0710;font-weight:700;box-shadow:0 8px 30px rgba(115,82,223,0.16)}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+.question{font-size:18px;margin-bottom:12px;position:relative}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
+.opt{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:transform .12s ease, box-shadow .12s ease;position:relative}
+.opt:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(115,82,223,0.08)}
+.opt.correct{box-shadow:0 0 18px rgba(46, 255, 150,0.12);border-color:rgba(46,255,150,0.12)}
+.opt.wrong{box-shadow:0 0 18px rgba(255,80,80,0.12);border-color:rgba(255,80,80,0.12)}
+.progress{display:flex;gap:8px;justify-content:center;margin:14px 0}
+.dot{width:var(--dot-size);height:var(--dot-size);border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.02);box-shadow:0 2px 8px rgba(0,0,0,0.4)}
+.dot.done.correct{background:linear-gradient(90deg,#63f0a1,rgba(46,255,150,0.18));box-shadow:0 6px 18px rgba(99,240,161,0.06);border-color:rgba(46,255,150,0.18)}
+.dot.done.wrong{background:linear-gradient(90deg,rgba(255,80,80,0.18),#ff6b6b);box-shadow:0 6px 18px rgba(255,80,80,0.06);border-color:rgba(255,80,80,0.18)}
+.meta{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:14px}
+.final{display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:28px}
+.final.show{display:flex}
+.final h3{font-size:22px;margin:6px 0}
+.prize{margin-top:8px;padding:12px 14px;border-radius:10px;background:linear-gradient(90deg, rgba(115,82,223,0.12), rgba(115,82,223,0.04));border:1px solid rgba(115,82,223,0.12)}
+.prize img{width:120px; height:120px; object-fit:cover; border-radius:12px; margin-top:8px;}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s ease;background:var(--glow);mix-blend-mode:screen}
+.flash.green{background:linear-gradient(90deg, rgba(31,255,142,0.22), rgba(31,255,142,0.06));}
+.flash.red{background:linear-gradient(90deg, rgba(255,60,80,0.22), rgba(255,60,80,0.06));}
+.small{font-size:13px;color:var(--muted)}
+.power{
+  background:linear-gradient(90deg,var(--glow), #a47df2);
+  border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-size:14px;
+  color:#fff; font-weight:700; box-shadow:0 4px 20px rgba(115,82,223,0.2); transition:.2s;
+}
+.power:disabled{
+  background:#555; color:#999; cursor:not-allowed; box-shadow:none;
+}
+.bubble, .card-anim {
+  position:absolute;
+  font-weight:700;
+  border-radius:8px;
+  padding:6px 10px;
+  color:#fff;
+  pointer-events:none;
+  opacity:0.8;
+  font-size:16px;
+}
+.bubble {
+  background:rgba(115,82,223,0.6);
+  animation:floatUp 1.5s ease forwards;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity:0.8; }
+  100% { transform: translateY(-80px) scale(1.2); opacity:0; }
+}
+.card-anim {
+  background:linear-gradient(135deg,#7352df,#a47df2);
+  width:40px;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  animation:cardAnim 1s ease forwards;
+}
+@keyframes cardAnim {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity:0; }
+  50% { transform: translateY(-60px) rotate(15deg) scale(1.1); opacity:1; }
+  100% { transform: translateY(-120px) rotate(-5deg) scale(1); opacity:0; }
+}
+@media(max-width:640px){.options{grid-template-columns:1fr}.head-text h2{font-size:18px}.logo{width:54px;height:54px}.container{padding:18px}}
+</style>
 </head>
 <body>
 <div class="container">
-  <div class="flash" id="flash"></div>
-  <header>
-    <div class="logo"><h1>❤️</h1></div>
-    <div class="head-text">
-      <h2>Quiz de Conhecimento</h2>
-      <p class="lead">Escolha quantos pontos quer apostar em cada pergunta.</p>
-    </div>
-  </header>
+<div class="flash" id="flash"></div>
+<header>
+<div class="logo"><h1>❤️</h1></div>
+<div class="head-text">
+<h2>Quiz de Conhecimento</h2>
+<p class="lead">Escolha quantos pontos quer apostar em cada pergunta.</p>
+</div>
+</header>
 
-  <div class="controls">
-    <label class="small">Pontos por aposta:</label>
-    <select id="pointsPer" aria-label="Pontos por aposta">
-      <option value="5">5 pontos</option>
-      <option value="10" selected>10 pontos</option>
-      <option value="50">50 pontos</option>
-      <option value="100">100 pontos</option>
-      <option value="0">Não apostar</option>
-    </select>
-    <button class="primary" id="startBtn">Começar</button>
+<div class="controls">
+<label class="small">Pontos por aposta:</label>
+<select id="pointsPer" aria-label="Pontos por aposta">
+<option value="5">5 pontos</option>
+<option value="10" selected>10 pontos</option>
+<option value="50">50 pontos</option>
+<option value="100">100 pontos</option>
+<option value="0">Não apostar</option>
+</select>
+<button class="primary" id="startBtn">Começar</button>
 
-    <div class="powers" style="display:flex;gap:8px;align-items:center;margin-left:auto">
-      <button class="power" id="helpPower" data-max="1">💬 Ajuda (1/1)</button>
-      <button class="power" id="eliminatePower" data-max="2">❌ Eliminar 2 (2/2)</button>
-      <button class="power" id="cardPower" data-max="2">🎴 Carta (2/2)</button>
-    </div>
-  </div>
+<div class="powers" style="display:flex;gap:8px;align-items:center;margin-left:auto">
+  <button class="power" id="helpPower" data-max="1">💬 Ajuda (1/1)</button>
+  <button class="power" id="eliminatePower" data-max="2">❌ Eliminar 2 (2/2)</button>
+  <button class="power" id="cardPower" data-max="2">🎴 Carta (2/2)</button>
+</div>
+</div>
 
-  <div class="card" id="quizCard">
-    <div id="questionStage">
-      <div class="question" id="questionText">Clique em "Começar" para iniciar o quiz</div>
-      <div class="options" id="optionsArea"></div>
-      <div class="progress" id="progressDots"></div>
-      <div class="meta">
-        <div class="small">Pergunta <span id="currentIndex">0</span>/<span id="totalQ">20</span></div>
-        <div class="small">Pontos: <strong id="score">0</strong></div>
-      </div>
-    </div>
-
-    <div class="final" id="finalStage">
-      <h3 id="finalTitle">Resultado</h3>
-      <p class="small" id="finalScore">Você fez 0 pontos</p>
-      <div class="prize" id="finalPrize">Prêmio desbloqueado: —</div>
-      <div style="height:12px"></div>
-      <button class="primary" id="restartBtn">Jogar novamente</button>
-    </div>
+<div class="card" id="quizCard">
+<div id="questionStage">
+  <div class="question" id="questionText">Clique em "Começar" para iniciar o quiz</div>
+  <div class="options" id="optionsArea"></div>
+  <div class="progress" id="progressDots"></div>
+  <div class="meta">
+    <div class="small">Pergunta <span id="currentIndex">0</span>/<span id="totalQ">20</span></div>
+    <div class="small">Pontos: <strong id="score">0</strong></div>
   </div>
 </div>
 
-<script>
-  // Sons aleatórios
-  const correctSounds = [
-    'https://files.catbox.moe/24xi51.mp3',
-    'https://files.catbox.moe/qeg9at.mp3',
-    'https://files.catbox.moe/qeg9at.mp3'
-  ];
-  const wrongSounds = [
-    'https://files.catbox.moe/8t3vmc.mp3',
-    'https://files.catbox.moe/hjz7cp.mp3',
-    'https://files.catbox.moe/e4rxvc.mp3',
-    'https://files.catbox.moe/0akd29.mp3'
-  ];
-  function playRandomSound(arr){
-    const sound = arr[Math.floor(Math.random()*arr.length)];
-    const audio = new Audio(sound);
-    audio.play();
-  }
+<div class="final" id="finalStage">
+<h3 id="finalTitle">Resultado</h3>
+<p class="small" id="finalScore">Você fez 0 pontos</p>
+<div class="prize" id="finalPrize">Prêmio desbloqueado: —</div>
+<div style="height:12px"></div>
+<button class="primary" id="restartBtn">Jogar novamente</button>
+</div>
+</div>
+</div>
 
+<script>
+// Letras para opções
+const letters=['A','B','C','D'];
+
+// Sons
+const correctSounds = ['https://files.catbox.moe/24xi51.mp3','https://files.catbox.moe/qeg9at.mp3','https://files.catbox.moe/qeg9at.mp3'];
+const wrongSounds = ['https://files.catbox.moe/8t3vmc.mp3','https://files.catbox.moe/hjz7cp.mp3','https://files.catbox.moe/e4rxvc.mp3','https://files.catbox.moe/0akd29.mp3'];
+function playRandomSound(arr){const s=arr[Math.floor(Math.random()*arr.length)];(new Audio(s)).play();}
+
+// Perguntas de exemplo
   const questions = [
       {text:'Qual foi a primeira coisa que disse quando me conheceu?', choices:['Tu que é a Lara?','Deixa eu ver quem é essa aqui','Hmmm então é você que bane todo mundo','Não disse nada'], correct:2},
       {text:'Qual foi a primeira mensagem que você me mandou:', choices:['Falando que era o Guilherme da praça','Falando sobre uma denuncia','Me mandou um Oi','Você não mandou mensagem'], correct:0},
@@ -167,218 +193,218 @@
       {text:'Qual maior cargo eu já cheguei na STAFF', choices:['Supervisora','COO','CRO','CTO'], correct:2}
     ];
 
-  const prizes = [
-    {min:0, max:199, text:'Um pix no jogo de 10kk', img:'https://files.catbox.moe/ag48ee.png'},
-    {min:200, max:399, text:'Um pix de 50$', img:'https://files.catbox.moe/rknngv.png'},
-    {min:400, max:599, text:'Qualquer skin da loja do Valorant', img:'https://files.catbox.moe/jhtzam.webp'},
-    {min:600, max:799, text:'Um voucher de $200 reais na loja da cidade', img:'https://files.catbox.moe/rknngv.png'},
-    {min:800, max:999, text:'Qualquer coisa da sua escolha em qualquer loja (até $300)', img:'https://files.catbox.moe/aygl9w.png'},
-    {min:1700, max:2000, text:'$700 reais no Pix', img:'https://files.catbox.moe/hxaxvu.webp'}
-  ];
+const prizes=[
+{min:0,max:199,text:'Um pix no jogo de 10kk',img:'https://files.catbox.moe/ag48ee.png'},
+{min:200,max:399,text:'Um pix de 50$',img:'https://files.catbox.moe/rknngv.png'},
+{min:400,max:599,text:'Qualquer skin da loja do Valorant',img:'https://files.catbox.moe/jhtzam.webp'}
+];
 
-  const totalQ = questions.length;
-  document.getElementById('totalQ').textContent = totalQ;
+const totalQ=questions.length;
+document.getElementById('totalQ').textContent=totalQ;
 
-  const startBtn = document.getElementById('startBtn');
-  const restartBtn = document.getElementById('restartBtn');
-  const pointsPerEl = document.getElementById('pointsPer');
-  const flash = document.getElementById('flash');
+const startBtn=document.getElementById('startBtn');
+const restartBtn=document.getElementById('restartBtn');
+const pointsPerEl=document.getElementById('pointsPer');
+const flash=document.getElementById('flash');
 
-  let current = 0;
-  let score = 0;
-  let answered = [];
+let current=0;
+let score=0;
+let answered=[];
 
-  const questionText = document.getElementById('questionText');
-  const optionsArea = document.getElementById('optionsArea');
-  const progressDots = document.getElementById('progressDots');
-  const currentIndex = document.getElementById('currentIndex');
-  const scoreEl = document.getElementById('score');
-  const finalStage = document.getElementById('finalStage');
-  const questionStage = document.getElementById('questionStage');
-  const finalScore = document.getElementById('finalScore');
-  const finalPrize = document.getElementById('finalPrize');
-  const finalTitle = document.getElementById('finalTitle');
+const questionText=document.getElementById('questionText');
+const optionsArea=document.getElementById('optionsArea');
+const progressDots=document.getElementById('progressDots');
+const currentIndex=document.getElementById('currentIndex');
+const scoreEl=document.getElementById('score');
+const finalStage=document.getElementById('finalStage');
+const questionStage=document.getElementById('questionStage');
+const finalScore=document.getElementById('finalScore');
+const finalPrize=document.getElementById('finalPrize');
+const finalTitle=document.getElementById('finalTitle');
 
-  const helpBtn = document.getElementById('helpPower');
-  const eliminateBtn = document.getElementById('eliminatePower');
-  const cardBtn = document.getElementById('cardPower');
+const helpBtn=document.getElementById('helpPower');
+const eliminateBtn=document.getElementById('eliminatePower');
+const cardBtn=document.getElementById('cardPower');
 
-  let powers = {
-    help: parseInt(helpBtn.dataset.max),
-    eliminate: parseInt(eliminateBtn.dataset.max),
-    card: parseInt(cardBtn.dataset.max)
-  };
+let powers={
+  help:parseInt(helpBtn.dataset.max),
+  eliminate:parseInt(eliminateBtn.dataset.max),
+  card:parseInt(cardBtn.dataset.max)
+};
 
-  function updatePowerButtons(){
-    helpBtn.textContent = `💬 Ajuda (${powers.help}/${helpBtn.dataset.max})`;
-    eliminateBtn.textContent = `❌ Eliminar 2 (${powers.eliminate}/${eliminateBtn.dataset.max})`;
-    cardBtn.textContent = `🎴 Carta (${powers.card}/${cardBtn.dataset.max})`;
-    helpBtn.disabled = powers.help <= 0;
-    eliminateBtn.disabled = powers.eliminate <= 0;
-    cardBtn.disabled = powers.card <= 0;
+function updatePowerButtons(){
+  helpBtn.textContent=`💬 Ajuda (${powers.help}/${helpBtn.dataset.max})`;
+  helpBtn.disabled=powers.help<=0;
+  eliminateBtn.textContent=`❌ Eliminar 2 (${powers.eliminate}/${eliminateBtn.dataset.max})`;
+  eliminateBtn.disabled=powers.eliminate<=0;
+  cardBtn.textContent=`🎴 Carta (${powers.card}/${cardBtn.dataset.max})`;
+  cardBtn.disabled=powers.card<=0;
+}
+
+function createDots(){
+  progressDots.innerHTML='';
+  for(let i=0;i<totalQ;i++){
+    const d=document.createElement('div');d.className='dot';progressDots.appendChild(d);
   }
+}
 
-  function createDots(){
-    progressDots.innerHTML='';
-    for(let i=0;i<totalQ;i++){
-      const d=document.createElement('div');d.className='dot';progressDots.appendChild(d);
-    }
-  }
-
-  function startQuiz(){
-    current = 0; score = 0; answered = [];
-    scoreEl.textContent = score;
-    createDots();
-    finalStage.classList.remove('show');
-    questionStage.style.display='block';
-    powers.help = parseInt(helpBtn.dataset.max);
-    powers.eliminate = parseInt(eliminateBtn.dataset.max);
-    powers.card = parseInt(cardBtn.dataset.max);
-    updatePowerButtons();
-    loadQuestion();
-  }
-
-  function loadQuestion(){
-    const q = questions[current];
-    questionText.textContent = q.text;
-    optionsArea.innerHTML='';
-    q.choices.forEach((ch, idx)=>{
-      const btn = document.createElement('button');
-      btn.className='opt';
-      btn.innerHTML = `<div>${ch}</div>`;
-      btn.addEventListener('click', ()=> handleAnswer(idx,btn));
-      optionsArea.appendChild(btn);
-    });
-    currentIndex.textContent = current+1;
-  }
-
-  function handleAnswer(choiceIdx, btnEl){
-    if(answered[current]) return;
-    answered[current]=true;
-    const q = questions[current];
-    const isCorrect = (choiceIdx === q.correct);
-
-    Array.from(optionsArea.children).forEach((b,i)=>{
-      if(i===q.correct) b.classList.add('correct');
-      if(i===choiceIdx && !isCorrect) b.classList.add('wrong');
-      b.disabled = true;
-    });
-
-    let currentPoints = parseInt(pointsPerEl.value, 10);
-    if(currentPoints > 0){
-      score += isCorrect ? currentPoints : -currentPoints;
-      if(score < 0) score = 0;
-    }
-
-    if(isCorrect) playRandomSound(correctSounds);
-    else playRandomSound(wrongSounds);
-
-    flashOnce(isCorrect?'green':'red');
-    markDot(current,isCorrect);
-    scoreEl.textContent = score;
-
-    setTimeout(()=>{
-      current++;
-      if(current < totalQ) loadQuestion();
-      else finishQuiz();
-    },700);
-  }
-
-  function markDot(idx,correct){
-    const d = progressDots.children[idx];
-    if(!d) return;
-    d.classList.add('done');
-    d.classList.add(correct? 'correct':'wrong');
-  }
-
-  let flashTimeout = null;
-  function flashOnce(color){
-    if(flashTimeout){ clearTimeout(flashTimeout); flashTimeout=null }
-    flash.classList.remove('green','red');
-    void flash.offsetWidth;
-    flash.classList.add(color);
-    flash.style.opacity = '1';
-    flashTimeout = setTimeout(()=>{ flash.style.opacity='0'; flash.classList.remove(color); flashTimeout=null }, 300);
-  }
-
-  function finishQuiz(){
-    questionStage.style.display='none';
-    finalStage.classList.add('show');
-    finalScore.textContent = `Você fez ${score} pontos`;
-    finalTitle.textContent = `Resultado ${current}/${totalQ} perguntas`;
-
-    const prize = prizes.find(p => score >= p.min && score <= p.max);
-    if(prize){
-      finalPrize.innerHTML = `Prêmio desbloqueado: ${prize.text}<br>
-      <img src="${prize.img}" alt="${prize.text}">`;
-    } else {
-      finalPrize.textContent = 'Sem prêmio definido para essa pontuação.';
-    }
-  }
-
-  restartBtn.addEventListener('click', ()=>{ startQuiz(); window.scrollTo({top:0,behavior:'smooth'}) });
-  startBtn.addEventListener('click', startQuiz);
+function startQuiz(){
+  current=0; score=0; answered=[];
+  scoreEl.textContent=score;
+  powers.help=parseInt(helpBtn.dataset.max);
+  powers.eliminate=parseInt(eliminateBtn.dataset.max);
+  powers.card=parseInt(cardBtn.dataset.max);
+  updatePowerButtons();
   createDots();
+  finalStage.classList.remove('show');
+  questionStage.style.display='block';
+  loadQuestion();
+}
 
-  // --- Poderes ---
-  function shuffleArray(arr){
-    for(let i=arr.length-1;i>0;i--){
-      const j=Math.floor(Math.random()* (i+1));
-      [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
+function loadQuestion(){
+  const q=questions[current];
+  questionText.textContent=q.text;
+  optionsArea.innerHTML='';
+  q.choices.forEach((ch,idx)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<div>${letters[idx]}. ${ch}</div>`;
+    btn.addEventListener('click',()=>handleAnswer(idx,btn));
+    optionsArea.appendChild(btn);
+  });
+  currentIndex.textContent=current+1;
+}
+
+function handleAnswer(choiceIdx,btnEl){
+  if(answered[current]) return;
+  answered[current]=true;
+  const q=questions[current];
+  const isCorrect=(choiceIdx===q.correct);
+
+  Array.from(optionsArea.children).forEach((b,i)=>{
+    if(i===q.correct)b.classList.add('correct');
+    if(i===choiceIdx&&!isCorrect)b.classList.add('wrong');
+    b.disabled=true;
+  });
+
+  let currentPoints=parseInt(pointsPerEl.value,10);
+  if(currentPoints>0){
+    score+=isCorrect?currentPoints:-currentPoints;
+    if(score<0)score=0;
   }
 
-  helpBtn.addEventListener('click', ()=>{
-    if(powers.help<=0) return;
-    powers.help--;
-    updatePowerButtons();
-    const q = questions[current];
-    const freq = Array(q.choices.length).fill(0).map((_,i)=> i===q.correct?2:1);
-    optionsArea.childNodes.forEach((btn,i)=>{
-      const count = freq[i];
-      for(let j=0;j<count;j++){
-        const bubble = document.createElement('div');
-        bubble.textContent = btn.textContent;
-        bubble.style.position='absolute';
-        bubble.style.top=`${Math.random()*80}%`;
-        bubble.style.left=`${Math.random()*80}%`;
-        bubble.style.fontSize='12px';
-        bubble.style.color='#fff';
-        bubble.style.opacity='0.6';
-        questionStage.appendChild(bubble);
-        setTimeout(()=>bubble.remove(),1500);
-      }
-    });
-  });
+  if(isCorrect)playRandomSound(correctSounds);
+  else playRandomSound(wrongSounds);
 
-  eliminateBtn.addEventListener('click', ()=>{
-    if(powers.eliminate<=0) return;
-    powers.eliminate--;
-    updatePowerButtons();
-    const q = questions[current];
-    const wrongIndices = q.choices.map((_,i)=>i).filter(i=>i!==q.correct);
-    shuffleArray(wrongIndices);
-    wrongIndices.slice(0,2).forEach(i=>{
-      optionsArea.children[i].disabled = true;
-      optionsArea.children[i].style.opacity = 0.3;
-    });
-  });
+  flashOnce(isCorrect?'green':'red');
+  markDot(current,isCorrect);
+  scoreEl.textContent=score;
 
-  cardBtn.addEventListener('click', ()=>{
-    if(powers.card<=0) return;
-    powers.card--;
-    updatePowerButtons();
-    const q = questions[current];
-    const wrongIndices = q.choices.map((_,i)=>i).filter(i=>i!==q.correct);
-    shuffleArray(wrongIndices);
-    const keepIdx = wrongIndices[Math.floor(Math.random()*wrongIndices.length)];
-    optionsArea.childNodes.forEach((btn,i)=>{
-      if(i!==q.correct && i!==keepIdx){
-        btn.disabled=true;
-        btn.style.opacity=0.3;
-      }
-    });
+  setTimeout(()=>{
+    current++;
+    if(current<totalQ)loadQuestion();
+    else finishQuiz();
+  },700);
+}
+
+function markDot(idx,correct){
+  const d=progressDots.children[idx];
+  if(!d)return;
+  d.classList.add('done');
+  d.classList.add(correct?'correct':'wrong');
+}
+
+let flashTimeout=null;
+function flashOnce(color){
+  if(flashTimeout){clearTimeout(flashTimeout); flashTimeout=null}
+  flash.classList.remove('green','red');
+  void flash.offsetWidth;
+  flash.classList.add(color);
+  flash.style.opacity='1';
+  flashTimeout=setTimeout(()=>{flash.style.opacity='0'; flash.classList.remove(color); flashTimeout=null},300);
+}
+
+function finishQuiz(){
+  questionStage.style.display='none';
+  finalStage.classList.add('show');
+  finalScore.textContent=`Você fez ${score} pontos`;
+  finalTitle.textContent=`Resultado ${current}/${totalQ} perguntas`;
+
+  const prize=prizes.find(p=>score>=p.min && score<=p.max);
+  if(prize){
+    finalPrize.innerHTML=`Prêmio desbloqueado: ${prize.text}<br>
+    <img src="${prize.img}" alt="${prize.text}">`;
+  } else finalPrize.textContent='Sem prêmio definido para essa pontuação.';
+}
+
+// Funções auxiliares
+function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}}
+
+// --- Poderes ---
+helpBtn.addEventListener('click',()=>{
+  if(powers.help<=0)return;
+  powers.help--;
+  updatePowerButtons();
+  const q=questions[current];
+  const freq=Array(q.choices.length).fill(0).map((_,i)=>i===q.correct?3:1);
+  letters.forEach((l,i)=>{
+    for(let j=0;j<freq[i];j++){
+      const bubble=document.createElement('div');
+      bubble.className='bubble';
+      bubble.textContent=l;
+      bubble.style.top=`${Math.random()*60+20}%`;
+      bubble.style.left=`${Math.random()*60+20}%`;
+      questionStage.appendChild(bubble);
+      setTimeout(()=>bubble.remove(),1500);
+    }
   });
+});
+
+eliminateBtn.addEventListener('click',()=>{
+  if(powers.eliminate<=0)return;
+  powers.eliminate--;
+  updatePowerButtons();
+  const q=questions[current];
+  const wrongIndices=q.choices.map((_,i)=>i).filter(i=>i!==q.correct);
+  shuffleArray(wrongIndices);
+  wrongIndices.slice(0,2).forEach(i=>{
+    optionsArea.children[i].disabled=true;
+    optionsArea.children[i].style.opacity=0.3;
+  });
+});
+
+cardBtn.addEventListener('click',()=>{
+  if(powers.card<=0)return;
+  powers.card--;
+  updatePowerButtons();
+  const q=questions[current];
+  const wrongIndices=q.choices.map((_,i)=>i).filter(i=>i!==q.correct);
+  shuffleArray(wrongIndices);
+  const keepIdx=wrongIndices[Math.floor(Math.random()*wrongIndices.length)];
+  const indicesToShow=[q.correct,keepIdx];
+  optionsArea.childNodes.forEach((btn,i)=>{
+    if(!indicesToShow.includes(i)){
+      btn.disabled=true;
+      btn.style.opacity=0.3;
+    }
+  });
+  // animação das cartas
+  indicesToShow.forEach((i,idx)=>{
+    const card=document.createElement('div');
+    card.className='card-anim';
+    card.textContent=letters[i];
+    card.style.left=`${50+(idx*60)}px`;
+    card.style.top='50%';
+    questionStage.appendChild(card);
+    setTimeout(()=>card.remove(),1000);
+  });
+});
+
+// Eventos
+startBtn.addEventListener('click',startQuiz);
+restartBtn.addEventListener('click',()=>{startQuiz(); window.scrollTo({top:0,behavior:'smooth'})});
+createDots();
+updatePowerButtons();
 </script>
 </body>
 </html>
