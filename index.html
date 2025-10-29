@@ -141,15 +141,13 @@ button.primary{background:linear-gradient(90deg,var(--glow), #a47df2);border:non
 </div>
 
 <script>
-// Letras para opções
+
 const letters=['A','B','C','D'];
 
-// Sons
 const correctSounds = ['https://files.catbox.moe/24xi51.mp3','https://files.catbox.moe/qeg9at.mp3','https://files.catbox.moe/qeg9at.mp3'];
 const wrongSounds = ['https://files.catbox.moe/8t3vmc.mp3','https://files.catbox.moe/hjz7cp.mp3','https://files.catbox.moe/e4rxvc.mp3','https://files.catbox.moe/0akd29.mp3'];
 function playRandomSound(arr){const s=arr[Math.floor(Math.random()*arr.length)];(new Audio(s)).play();}
 
-// Perguntas de exemplo
   const questions = [
       {text:'Qual foi a primeira coisa que disse quando me conheceu?', choices:['Tu que é a Lara?','Deixa eu ver quem é essa aqui','Hmmm então é você que bane todo mundo','Não disse nada'], correct:2},
       {text:'Qual foi a primeira mensagem que você me mandou:', choices:['Falando que era o Guilherme da praça','Falando sobre uma denuncia','Me mandou um Oi','Você não mandou mensagem'], correct:0},
@@ -337,10 +335,8 @@ function finishQuiz(){
   } else finalPrize.textContent='Sem prêmio definido para essa pontuação.';
 }
 
-// Funções auxiliares
 function shuffleArray(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}}
 
-// --- Poderes ---
 helpBtn.addEventListener('click',()=>{
   if(powers.help<=0)return;
   powers.help--;
@@ -388,7 +384,7 @@ cardBtn.addEventListener('click',()=>{
       btn.style.opacity=0.3;
     }
   });
-  // animação das cartas
+  
   indicesToShow.forEach((i,idx)=>{
     const card=document.createElement('div');
     card.className='card-anim';
@@ -400,7 +396,6 @@ cardBtn.addEventListener('click',()=>{
   });
 });
 
-// Eventos
 startBtn.addEventListener('click',startQuiz);
 restartBtn.addEventListener('click',()=>{startQuiz(); window.scrollTo({top:0,behavior:'smooth'})});
 createDots();
@@ -408,4 +403,5 @@ updatePowerButtons();
 </script>
 </body>
 </html>
+
 
